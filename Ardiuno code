@@ -1,0 +1,44 @@
+#include <OneWire.h>
+//includes the onewire libary
+#include <DallasTemperature.h>
+//includes the DallasTemperature libary
+#include <LiquidCrystal.h>
+//includes LiquidCrystal libary
+// Data wire is plugged into port 2 on the Arduino
+#define ONE_WIRE_BUS 2
+// delcares what pin the temrature sensor is 
+OneWire oneWire(ONE_WIRE_BUS);
+// Pass our oneWire reference to Dallas Temperature. 
+DallasTemperature sensors(&oneWire);
+LiquidCrystal lcd(12, 3, 10, 9, 8, 7);
+// delcares what pin the information in the LCDs are
+
+
+
+void setup(void)
+{
+lcd.begin(16, 2); //Declares the size of the LCD
+// start serial port
+Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
+Serial.println("Temperature Project");
+// Start up the library
+sensors.begin();
+lcd.print("Temperature Project");
+}
+
+
+
+void loop(void)
+{ 
+// call sensors.requestTemperatures() to issue a global temperature 
+// request to all devices on the bus
+Serial.print("Temp is: ");
+sensors.requestTemperatures(); // Send the command to get temperatures
+lcd.setCursor(0, 0); //places the LCD cursor at point 0,0 
+lcd.print("Tem: ");
+lcd.print(sensors.getTempCByIndex(0));//print the temperature on lcd
+lcd.print(" C"); //Print a C after 
+Serial.println(sensors.getTempCByIndex(0)); //print the temperature on serial monitor
+}
+
+// at current the LCD doesn't work idk if the code is wrong or I've wried it up wrong...
